@@ -2,11 +2,8 @@
   (:gen-class)
   (:require [rfqservice.core
              :refer
-             [->Quote orders quote-or-unfulfilled update-quote]]))
-
-(defprotocol RfqService
-  "Quote service"
-  (quote-for [this currency amount]))
+             [->Quote orders quote-or-unfulfilled update-quote RfqService quote-for]])
+  )
 
 (defn determine-transducer-quote [quote-amount x-amount]
   (fn
@@ -21,12 +18,14 @@
   RfqService
   (quote-for [this currency amount]
     (->
-     (transduce (filter #(= currency (:currency %))) (determine-transducer-quote amount x-amount) orders-coll))))
+     (transduce (filter #(= currency (:currency %))) (determine-transducer-quote amount x-amount) orders-coll)
+     quote-or-unfulfilled)))
 
 (defn quote-for2 [currency amount x-amount]
     (->
      (transduce (filter #(= currency (:currency %))) (determine-transducer-quote amount x-amount) orders)
      quote-or-unfulfilled))
+
 
 
 (comment
@@ -37,7 +36,8 @@
     ([a b] (+ a b)))
 
   (transduce (filter odd?) sum [1 2 3 4 5 6 7 8 9 10 12 14])
-  (.orElse (quote-for2 :usd 200 0.02) :unfulfilled)
-  (quote-for (TransduceRfqService. 0.02 orders) :usd 200)
+  (.orElse (quote-for2 "USD" 200 0.02) :unfulfilled)
+  (.orElse (quote-for (TransduceRfqService. 0.02M orders) "USD" 200) :failed)
+
 
   )

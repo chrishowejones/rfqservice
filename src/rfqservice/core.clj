@@ -3,15 +3,15 @@
   (:gen-class))
 
 (def orders
-  [{:direction :buy :price 232.71M :currency :usd :amount 200}
-   {:direction :sell :price 232.74M :currency :usd :amount 100}
-   {:direction :sell :price 232.73M :currency :usd :amount 200}
-   {:direction :buy :price 232.71M :currency :usd :amount 500}
-   {:direction :buy :price 232.70M :currency :usd :amount 100}
-   {:direction :sell :price 232.75M :currency :usd :amount 200}
-   {:direction :buy :price 232.69M :currency :usd :amount 500}
-   {:direction :sell :price 232.76M :currency :usd :amount 300}
-   {:direction :buy :price 232.70M :currency :usd :amount 200}])
+  [{:direction :buy :price 232.71M :currency "USD" :amount 200}
+   {:direction :sell :price 232.74M :currency "USD" :amount 100}
+   {:direction :sell :price 232.73M :currency "USD" :amount 200}
+   {:direction :buy :price 232.71M :currency "USD" :amount 500}
+   {:direction :buy :price 232.70M :currency "USD" :amount 100}
+   {:direction :sell :price 232.75M :currency "USD" :amount 200}
+   {:direction :buy :price 232.69M :currency "USD" :amount 500}
+   {:direction :sell :price 232.76M :currency "USD" :amount 300}
+   {:direction :buy :price 232.70M :currency "USD" :amount 200}])
 
 (defn orders-for
   [currency orders]
@@ -19,7 +19,7 @@
 
 (defprotocol RfqService
   "Quote service"
-  (quote-for [this currency amount]))
+  (quote-for [this ^String currency ^Double amount]))
 
 (defrecord Quote [^Double bid ^Double ask])
 
@@ -67,12 +67,15 @@
      quote-or-unfulfilled)))
 
 
+
 (comment
 
-  (.orElse (quote-for (MyRfqService. 0.02M orders) :usd 200) :unfulfilled)
-  (.orElse (quote-for (MyRfqService. 0.02M orders) :usd 300) :unfulfilled)
-  (.orElse (quote-for (MyRfqService. 0.02M orders) :usd 100) :unfulfilled)
-  (.orElse (quote-for (MyRfqService. 0.02M orders) :gbp 100) :unfulfilled)
+  (.orElse (quote-for (MyRfqService. 0.02M orders) "USD" 200) :unfulfilled)
+  (.orElse (quote-for (MyRfqService. 0.02M orders) "USD" 300) :unfulfilled)
+  (.orElse (quote-for (MyRfqService. 0.02M orders) "USD" 100) :unfulfilled)
+  (.orElse (quote-for (MyRfqService. 0.02M orders) "GBP" 100) :unfulfilled)
 
+  (.orElse (rfqservice.transduce/quote-for2 "USD" 200 0.02M) :dummy)
 
+  (quote-for (rfqservice.transduce.TransduceRfqService. 0.02M orders) :unfulfilled)
   )
