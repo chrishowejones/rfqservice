@@ -66,8 +66,6 @@
      (reduce (determine-quote amount x-amount) (->Quote :unfulfilled :unfulfilled) (orders-for currency orders))
      quote-or-unfulfilled)))
 
-
-
 (comment
 
   (.orElse (quote-for (MyRfqService. 0.02M orders) "USD" 200) :unfulfilled)

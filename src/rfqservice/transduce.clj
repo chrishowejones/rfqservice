@@ -2,8 +2,12 @@
   (:gen-class)
   (:require [rfqservice.core
              :refer
-             [->Quote orders quote-or-unfulfilled update-quote RfqService quote-for]])
-  )
+             [->Quote
+              orders
+              quote-for
+              quote-or-unfulfilled
+              RfqService
+              update-quote]]))
 
 (defn determine-transducer-quote [quote-amount x-amount]
   (fn
