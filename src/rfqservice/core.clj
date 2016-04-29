@@ -11,7 +11,16 @@
    {:direction :sell :price 232.75M :currency "USD" :amount 200}
    {:direction :buy :price 232.69M :currency "USD" :amount 500}
    {:direction :sell :price 232.76M :currency "USD" :amount 300}
-   {:direction :buy :price 232.70M :currency "USD" :amount 200}])
+   {:direction :buy :price 232.70M :currency "USD" :amount 200}
+   {:direction :buy :price 232.71M :currency "GBP" :amount 200}
+   {:direction :sell :price 232.74M :currency "GBP" :amount 100}
+   {:direction :sell :price 232.73M :currency "GBP" :amount 200}
+   {:direction :buy :price 232.71M :currency "GBP" :amount 500}
+   {:direction :buy :price 232.70M :currency "GBP" :amount 100}
+   {:direction :sell :price 232.75M :currency "GBP" :amount 200}
+   {:direction :buy :price 232.69M :currency "GBP" :amount 500}
+   {:direction :sell :price 232.76M :currency "GBP" :amount 300}
+   {:direction :buy :price 232.70M :currency "GBP" :amount 200}])
 
 (defn orders-for
   [currency orders]
